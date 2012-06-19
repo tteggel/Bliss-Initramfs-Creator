@@ -7,7 +7,7 @@
 # Message that will be displayed at the top of the screen
 headerMessage() {
     echo "##################################"
-    echo "${JV_APP_NAME} ${JV_VERSION}"
+    echo "${JV_APP_NAME} ${JV_VERSION} - ${JV_DISTRO}"
     echo "Author: ${JV_CONTACT}"
     echo "Released under the ${JV_LICENSE}"
     echo "##################################\n"
@@ -17,10 +17,7 @@ headerMessage() {
 displayMenu() {
 	echo "Which initramfs would you like to generate:"
 	echo "1. ZFS"
-	echo "2. LVM"
-	#echo "3. RAID"
-	#echo "4. LVM/RAID"
-	echo "3. Exit Program"
+	echo "2. Exit Program"
 	echo ""
 	echo -n "Current choice: " && read choice
 	echo ""
@@ -33,29 +30,6 @@ displayMenu() {
 			
 			. hooks/hook_zfs.sh
 			;;
-		#2)
-		#	echo "LVM will be generated"
-			
-		#	INIT_TYPE="LVM"			
-		#	
-		#	. hooks/hook_lvm.sh
-		#	;;
-		#3) 
-			# This option will be implemented in the future
-			#echo "RAID creation isn't supported at the moment. Sorry for the inconvenience." && exit
-			
-			#INIT_TYPE="RAID"
-			#
-			#. hooks/hook_raid.sh
-			#;;
-		#4)
-			# This option will be implemented in the future
-			#echo "LVM + RAID creation isn't supported at the moment. Sorry for the inconvenience." && exit
-			
-			#INIT_TYPE="LVM_RAID"
-			
-			#. hooks/hook_lvm_raid.sh
-			#;;
 		2)
 			exit
 			;;

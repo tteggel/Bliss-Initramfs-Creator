@@ -96,32 +96,17 @@ copyDependencies() {
 
     for X in ${JV_INIT_BINS}; do
 	    if [ "${X}" = "zpool_layout" ] || [ "${X}" = "hostid" ]; then
-			#else
-				#if [ "${JV_LIB_PATH}" = "32" ]; then
-					DEPS="$(ldd bin/${X} | awk ''${JV_LIB32}' {print $1}' | sed -e "s%${JV_LIB32}%%")"
-				#else
-				   # DEPS="$(ldd bin/${X} | awk ''${JV_LIB64}' {print $1}' | sed -e "s%${JV_LIB64}%%")"
-				#fi
-			#fi
+			DEPS="$(ldd bin/${X} | awk ''${JV_LIB32}' {print $1}' | sed -e "s%${JV_LIB32}%%")"
 	    else
-            #if [ "${JV_LIB_PATH}" = "32" ]; then
-		        DEPS="$(ldd sbin/${X} | awk ''${JV_LIB32}' {print $1}' | sed -e "s%${JV_LIB32}%%")"
-            #else
-		     #   DEPS="$(ldd sbin/${X} | awk ''${JV_LIB64}' {print $1}' | sed -e "s%${JV_LIB64}%%")"
-            #fi
+			DEPS="$(ldd sbin/${X} | awk ''${JV_LIB32}' {print $1}' | sed -e "s%${JV_LIB32}%%")"    
 	    fi 
 
 		# Copy dependencies for each bin specifically, while redirecting error messages
 		# (for libraries in locations that don't exist)
-	    for Y in ${DEPS}; do
-           # if [ "${JV_LIB_PATH}" = "32" ]; then
-		        cp -Lf ${JV_LIB32}/${Y} ${JV_LOCAL_LIB} 2> /dev/null
-		        cp -Lf ${JV_USR_LIB}/${Y} ${JV_LOCAL_LIB} 2> /dev/null
-            #else
-		     #   cp -Lf ${JV_LIB64}/${Y} ${JV_LOCAL_LIB64}
-		      #  cp -Lf ${JV_USR_LIB}/${Y} ${JV_LOCAL_LIB64}
-            #fi
-	    done
+	    for Y in ${DEPS}; do          
+			cp -Lf ${JV_LIB32}/${Y} ${JV_LOCAL_LIB} 2> /dev/null
+			cp -Lf ${JV_USR_LIB}/${Y} ${JV_LOCAL_LIB} 2> /dev/null
+        done
     done
 }
 

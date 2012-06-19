@@ -21,7 +21,7 @@
 #######################################################################
 # The main entry point starts here
 #######################################################################
-#clear
+clear
 
 headerMessage
 
@@ -49,4 +49,4 @@ configureInit
 
 createInitramfs
 
-#cleanComplete
+cleanComplete
