@@ -126,7 +126,7 @@ luks_trigger()
 			if [[ ${enc_type} == "key_gpg" ]]; then
 				eqst "Enter decryption code: " && read -s code && eline
 
-				if [[ -z ${phrase} ]]; then
+				if [[ -z ${code} ]]; then
 					die "No decryption code was given."
 				fi
 			fi
@@ -156,7 +156,7 @@ luks_trigger()
 					fi
 				elif [[ ${enc_type} == "key_gpg" ]]; then
 					if [[ -f ${keyfile} ]]; then
-						echo "${code}" | gpg --batch --passphrase-fd 0 -q -d ${keyfile} 2> /dev/null | 
+						echo "${code}" | gpg --batch --passphrase-fd 0 -q -d ${keyfile} 2> /dev/null |
 						cryptsetup --key-file=- luksOpen ${drives[${i}]} vault_${i} || die "luksOpen failed to open: ${drives[${i}]}"
 					else
 						die "Keyfile doesn't exist in this path: ${keyfile}"
@@ -193,7 +193,7 @@ zfs_trigger()
 # If USE_LVM is enabled, run this function
 lvm_trigger()
 {
-	# Make LVM Volume Group/Pools available 
+	# Make LVM Volume Group/Pools available
 	lvm vgchange -a y || die "Failed to enable the LVM volume groups"
 	lvm vgscan --mknodes || die "Failed to make the LVM nodes"
 
@@ -201,7 +201,7 @@ lvm_trigger()
 		die "You must pass the root= variable. Example: root=/dev/funtoo/root"
 	fi
 
-	# Mount the root pool 
+	# Mount the root pool
 	mount ${root} ${NEW_ROOT} || die "Failed to mount your lvm root logical volume"
 }
 
@@ -290,7 +290,7 @@ eflag()
 # Used for errors
 die()
 {
-        echo -e "\e[1;31m*\e[0;m ${@}" && rescue_shell 
+        echo -e "\e[1;31m*\e[0;m ${@}" && rescue_shell
 }
 
 # Prints empty line
